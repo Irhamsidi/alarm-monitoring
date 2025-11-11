@@ -42,7 +42,7 @@ webhookApp.post("/alert", (req, res) => {
   const { status, message } = req.body;
   console.log("Webhook received: ", req.body);
 
-  if (status === "warning") {
+  if (status === "firing") {
     alarmAcked = false;
     triggerAlarm();
   } else if (status === "resolved") {
