@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Alarm alert</h1>
+    <p>Waiting for alert....</p>
+
+    <audio id="alarm" src="alarm.mp3"></audio>
+
+    <button id="ackButton">Ack</button>
+
+    <script src="renderer.js"></script>
+
+    <script>
+      window.alarmAPI.onAlert(() => {
+        const audio = document.getElementById("alarm");
+        audio.volume = 1.0;
+        audio.play();
+      });
+    </script>
+  </body>
+</html>
