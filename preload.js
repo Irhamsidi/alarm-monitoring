@@ -1,5 +1,11 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
-contextBridge.exposeInMainWorld("alarmAPI", {
-  onAlert: (callback) => ipcRenderer.on("trigger-alarm", callback),
+contextBridge.exposeInMainWorld("ipc", {
+  send: (channel, data) => {
+    ipcRenderer.send(channel, data);
+  },
+
+  on: (channel, func) => {
+    ipcRenderer.on(channel, (event, ...args) => func(...args));
+  },
 });
