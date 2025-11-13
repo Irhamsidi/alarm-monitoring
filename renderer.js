@@ -7,6 +7,8 @@ audio.loop = true;
 let ws;
 
 function connect() {
+  console.log("Attempting to connect to WebSocket server...");
+
   try {
     ws = new WebSocket(SERVER_ADDRESS);
 
@@ -16,11 +18,11 @@ function connect() {
 
     ws.onmessage = (event) => {
       const message = event.data;
-      console.log("Message received: ${message}");
+      console.log(`Message received: ${message}`);
 
       if (message === "play-alarm") {
         console.log("Playing Alarm...");
-        audio.play();
+        audio.play().catch((e) => console.error("Audio play failed:".e));
       } else if (message === "stop-alarm") {
         console.log("Stopping Alarm...");
         audio.pause();
@@ -28,8 +30,10 @@ function connect() {
       }
     };
 
-    ws.onclose = () => {
-      console.log("Connection closed. Trying to reconnect again after 3s...");
+    ws.onclose = (event) => {
+      console.log(
+        `Connection closed (Code: ${event.code}). Trying to reconnect again after 3s...`
+      );
       setTimeout(connect, 3000);
     };
 
@@ -48,11 +52,9 @@ document.getElementById("ackButton").addEventListener("click", () => {
   console.log("Acknowledge by user, sending 'ack-alarm' to server.");
   if (ws && ws.readyState === WebSocket.OPEN) {
     ws.send("ack-alarm");
+  } else {
+    console.warn("Cannot send ACK: WebSocket is not open.");
   }
-
-  //Stop Audio on Current Client
-  audio.pause();
-  audio.currentTime = 0;
 });
 
 //Start Connection
