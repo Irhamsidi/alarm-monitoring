@@ -23,9 +23,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Tailwind & Lottie
-        run: npm run build
-
       - name: Build Electron App
         run: npm run package
 
