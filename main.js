@@ -2,8 +2,8 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const WebSocket = require("ws");
 
-const SERVER_ADDRESS = "ws://localhost:5002";
-// const SERVER_ADDRESS = "ws://10.16.20.52:5002";
+// const SERVER_ADDRESS = "ws://localhost:5002";
+const SERVER_ADDRESS = "ws://10.16.20.52:5002";
 let win;
 let ws;
 
