@@ -8,7 +8,7 @@
     "start:electron": "electron .",
     "build:css": "tailwindcss -i ./input.css -o ./tailwind.css",
     "watch:css": "tailwindcss -i ./input.css -o ./tailwind.css --watch",
-    "build:lottie": "copyfiles -u 1 \"node_modules/@lottiefiles/lottie-player/dist/lottie-player.js\" .",
+    "build:lottie": "copyfiles -f \"node_modules/@lottiefiles/lottie-player/dist/lottie-player.js\" .",
     "package": "npm-run-all build:css build:lottie && electron-builder"
   },
   "keywords": [],
@@ -39,6 +39,7 @@
       "tailwind.css",
       "lottie-player.js",
       "alarm.mp3",
+      "alarm.wav",
       "package.json"
     ],
     "win": {
