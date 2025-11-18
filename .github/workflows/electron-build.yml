@@ -1,0 +1,36 @@
+name: Build Electron App (Windows)
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Tailwind & Lottie
+        run: npm run build
+
+      - name: Build Electron App
+        run: npm run package
+
+      - name: Upload artifacts (installer)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windows-Installer
+          path: dist/
