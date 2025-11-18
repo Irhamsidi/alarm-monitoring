@@ -1,10 +1,15 @@
 {
-  "name": "alert-alarm",
+  "name": "alarm-monitoring-client",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "npm run build:css && electron .",
+    "dev": "npm-run-all --parallel watch:css start:electron",
+    "start:electron": "electron .",
+    "build:css": "tailwindcss -i ./input.css -o ./tailwind.css",
+    "watch:css": "tailwindcss -i ./input.css -o ./tailwind.css --watch",
+    "build:lottie": "copyfiles -u 1 \"node_modules/@lottiefiles/lottie-player/dist/lottie-player.js\" .",
+    "package": "npm-run-all build:css build:lottie && electron-builder"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +19,32 @@
     "electron": "^39.1.2"
   },
   "dependencies": {
+    "@lottiefiles/lottie-player": "^2.0.12",
+    "@tailwindcss/cli": "^4.1.17",
+    "electron-builder": "^26.0.12",
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^4.1.17",
     "ws": "^8.18.3"
+  },
+  "build": {
+    "appId": "com.grafana.alarmmonitor",
+    "productName": "Alarm Monitoring",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "index.html",
+      "tailwind.css",
+      "lottie-player.js",
+      "alarm.mp3",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }

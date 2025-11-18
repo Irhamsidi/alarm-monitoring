@@ -3,13 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Alarm Monitoring</title>
+
+    <link rel="stylesheet" href="./tailwind.css" />
   </head>
   <body>
-    <h1>Alarm alert</h1>
-    <p>Waiting for alert....</p>
+    <div class="mx-auto p-8 w-fit border border-black">
+      <h1>Alarm Monitoring</h1>
+      <p>Waiting for alert....</p>
 
-    <button id="ackButton">Ack</button>
+      <button
+        class="px-2 py-1 mt-4 bg-green-600 hover:bg-green-800 rounded-md text-white text-sm cursor-pointer"
+        id="ackButton"
+      >
+        Acknowledge
+      </button>
+    </div>
+
+    <footer class="absolute bottom-0 w-full p-2">
+      <div class="flex justify-between text-sm">
+        <small>&copy; 2025. Irham Sidi.</small>
+        <div>
+          <small>Status: </small>
+        </div>
+      </div>
+    </footer>
 
     <script src="renderer.js"></script>
   </body>
