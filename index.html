@@ -3,29 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self'; style-src 'self'; connect-src 'self'"
+    />
     <title>Alarm Monitoring</title>
 
+    <script src="@lottiefiles/lottie-player/dist/lottie-player.js"></script>
     <link rel="stylesheet" href="./tailwind.css" />
   </head>
-  <body>
-    <div class="mx-auto p-8 w-fit border border-black">
-      <h1>Alarm Monitoring</h1>
-      <p>Waiting for alert....</p>
+  <body class="h-screen m-0 flex items-center justify-center">
+    <div class="p-8 w-fit flex flex-col justify-center">
+      <h1 class="text-4xl font-bold text-center">Alarm Monitoring</h1>
+      <div class="my-2">
+        <!-- Resolved/Idle -->
+        <lottie-player
+          id="lottie-main-idle"
+          src="public/json/catIdle.json"
+          background="transparent"
+          speed="1"
+          class="w-96 h-96"
+          loop
+          autoplay
+        ></lottie-player>
+        <!-- Firing -->
+        <lottie-player
+          id="lottie-main-firing"
+          src="public/json/fireAlert.json"
+          background="transparent"
+          speed="1"
+          class="w-96 h-96 hidden"
+          loop
+          autoplay
+        ></lottie-player>
+      </div>
 
-      <button
-        class="px-2 py-1 mt-4 bg-green-600 hover:bg-green-800 rounded-md text-white text-sm cursor-pointer"
-        id="ackButton"
-      >
-        Acknowledge
+      <button id="ackButton" class="self-center">
+        <p
+          class="px-2.5 py-1.5 mt-4 bg-green-600 hover:bg-green-800 rounded-md text-white text-sm cursor-pointer"
+        >
+          Acknowledge
+        </p>
       </button>
     </div>
 
-    <footer class="absolute bottom-0 w-full p-2">
-      <div class="flex justify-between text-sm">
-        <small>&copy; 2025. Irham Sidi.</small>
-        <div>
-          <small>Status: </small>
-        </div>
+    <footer
+      class="absolute flex justify-between items-end bottom-0 w-full px-2"
+    >
+      <small class="py-2">&copy; 2025. Irham Sidi.</small>
+      <div class="py-0.5 flex items-center">
+        <small>Status: </small>
+        <!-- Resolved/Idle -->
+        <lottie-player
+          id="lottie-idle"
+          src="public/json/Idle.json"
+          background="transparent"
+          speed="1"
+          class="w-8 h-8"
+          loop
+          autoplay
+        ></lottie-player>
+        <!-- Firing -->
+        <lottie-player
+          id="lottie-firing"
+          src="public/json/Warning.json"
+          background="transparent"
+          speed="1"
+          class="w-8 h-8 hidden"
+          loop
+          autoplay
+        ></lottie-player>
       </div>
     </footer>
 

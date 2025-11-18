@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "npm run build:css && electron .",
-    "dev": "npm-run-all --parallel watch:css start:electron",
+    "start": "npm-run-all build:css build:lottie && electron .",
+    "dev": "npm-run-all build:lottie --parallel watch:css start:electron",
     "start:electron": "electron .",
     "build:css": "tailwindcss -i ./input.css -o ./tailwind.css",
     "watch:css": "tailwindcss -i ./input.css -o ./tailwind.css --watch",
@@ -17,14 +17,14 @@
   "description": "",
   "devDependencies": {
     "electron": "^39.1.2",
-    "electron-builder": "^26.0.12"
-  },
-  "dependencies": {
-    "@lottiefiles/lottie-player": "^2.0.12",
+    "electron-builder": "^26.0.12",
     "@tailwindcss/cli": "^4.1.17",
     "copyfiles": "^2.4.1",
     "npm-run-all": "^4.1.5",
-    "tailwindcss": "^4.1.17",
+    "tailwindcss": "^4.1.17"
+  },
+  "dependencies": {
+    "@lottiefiles/lottie-player": "^2.0.12",
     "ws": "^8.18.3"
   },
   "build": {
