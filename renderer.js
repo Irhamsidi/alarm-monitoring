@@ -1,7 +1,10 @@
-const audio = new Audio("alarm.wav");
+const audio = new Audio("alarm.mp3");
 audio.loop = true;
 
 const ackButton = document.getElementById("ackButton");
+
+//Lottie Fire Animation
+const lottieFire = document.getElementById("lottie-fire");
 
 //Lottie Status Animation
 const lottieMainIdle = document.getElementById("lottie-main-idle");
@@ -28,6 +31,8 @@ window.ipc.on("play-alarm", () => {
   //Status
   lottieIdle.classList.add("hidden");
   lottieFiring.classList.remove("hidden");
+  //Fire
+  lottieFire.classList.remove("hidden");
 });
 
 window.ipc.on("stop-alarm", () => {
@@ -41,6 +46,8 @@ window.ipc.on("stop-alarm", () => {
   //Status
   lottieFiring.classList.add("hidden");
   lottieIdle.classList.remove("hidden");
+  //Fire
+  lottieFire.classList.add("hidden");
 });
 
 console.log("Renderer.js loaded and listeners are active.");

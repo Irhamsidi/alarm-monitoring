@@ -42,7 +42,7 @@
         ></lottie-player>
       </div>
 
-      <button id="ackButton" class="self-center">
+      <button id="ackButton" class="self-center z-999">
         <p
           class="px-2.5 py-1.5 mt-4 bg-green-600 hover:bg-green-800 rounded-md text-white text-sm cursor-pointer"
         >
@@ -51,8 +51,18 @@
       </button>
     </div>
 
+    <lottie-player
+      id="lottie-fire"
+      src="public/json/Fireee.json"
+      background="transparent"
+      speed="1"
+      class="absolute bottom-0 w-full hidden"
+      loop
+      autoplay
+    ></lottie-player>
+
     <footer
-      class="absolute flex justify-between items-end bottom-0 w-full px-2"
+      class="absolute z-999 flex justify-between items-end bottom-0 w-full px-2"
     >
       <small class="py-2">&copy; 2025. Irham Sidi.</small>
       <div class="py-0.5 flex items-center">
