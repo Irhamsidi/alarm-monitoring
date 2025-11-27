@@ -2,8 +2,8 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const WebSocket = require("ws");
 
-// const SERVER_ADDRESS = "ws://localhost:5002";
-const SERVER_ADDRESS = "ws://10.16.20.52:5002";
+const SERVER_ADDRESS = "ws://localhost:5002";
+// const SERVER_ADDRESS = "ws://10.16.20.52:5002";
 let win;
 let ws;
 
@@ -62,19 +62,16 @@ function connect() {
     });
 
     ws.onmessage = (event) => {
-      console.log(`Message received (raw):`, event.data);
-      const message = event.data.toString();
-      log(`Message received: ${message}`);
+      try {
+        const rawData = event.data.toString();
+        const payload = JSON.parse(rawData);
 
-      // Send message to renderer (Play/Stop Audio)
-      if (win) {
-        if (message === "play-alarm") {
-          log("Playing audio....");
-          win.webContents.send("play-alarm");
-        } else if (message === "stop-alarm") {
-          log("Stopping audio....");
-          win.webContents.send("stop-alarm");
+        log("Payload received: ", payload.type);
+        if (win) {
+          win.webContents.send("server-message", payload);
         }
+      } catch (e) {
+        console.error("Failed to parse message: ", event.data, e);
       }
     };
 
