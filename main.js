@@ -62,19 +62,16 @@ function connect() {
     });
 
     ws.onmessage = (event) => {
-      console.log(`Message received (raw):`, event.data);
-      const message = event.data.toString();
-      log(`Message received: ${message}`);
+      try {
+        const rawData = event.data.toString();
+        const payload = JSON.parse(rawData);
 
-      // Send message to renderer (Play/Stop Audio)
-      if (win) {
-        if (message === "play-alarm") {
-          log("Playing audio....");
-          win.webContents.send("play-alarm");
-        } else if (message === "stop-alarm") {
-          log("Stopping audio....");
-          win.webContents.send("stop-alarm");
+        log("Payload received: ", payload.type);
+        if (win) {
+          win.webContents.send("server-message", payload);
         }
+      } catch (e) {
+        console.error("Failed to parse message: ", event.data, e);
       }
     };
 
