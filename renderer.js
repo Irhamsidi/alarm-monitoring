@@ -2,6 +2,7 @@ const audio = new Audio("alarm.mp3");
 audio.loop = true;
 
 const ackButton = document.getElementById("ackButton");
+const resetButton = document.getElementById("resetButton");
 const alertListContainer = document.getElementById("alert-list");
 
 //Lottie Fire Animation
@@ -15,11 +16,33 @@ const lottieMainFiring = document.getElementById("lottie-main-firing");
 const lottieIdle = document.getElementById("lottie-idle");
 const lottieFiring = document.getElementById("lottie-firing");
 
-// Send ack
+// Define Idle/Firing Elements
+const idleElements = [lottieMainIdle, lottieIdle];
+const firingElements = [lottieMainFiring, lottieFiring, lottieFire];
+
+function setVisualState(isFiring) {
+  idleElements.forEach((el) => el.classList.toggle("hidden", isFiring));
+  firingElements.forEach((el) => el.classList.toggle("hidden", !isFiring));
+}
+
+function sanitizeServiceName(name) {
+  if (!name) return "default";
+  return name.toLowerCase().replace(/[^a-z0-9-_]/g, "");
+}
+
+// Send Ack
 ackButton.addEventListener("click", () => {
   console.log("Ack button clicked. Sending to main process...");
   window.ipc.send("ack-alarm");
 });
+
+// Send Reset
+if (resetButton) {
+  resetButton.addEventListener("click", () => {
+    console.log("Reset button clicked. Sending to main process...");
+    window.ipc.send("reset-all");
+  });
+}
 
 // Listen to main process
 window.ipc.on("server-message", (payload) => {
@@ -30,14 +53,7 @@ window.ipc.on("server-message", (payload) => {
     console.log("Received 'play-alarm' from main process. Playing audio...");
     audio.play().catch((e) => console.error("Audio play failed: ", e));
 
-    //Main
-    lottieMainIdle.classList.add("hidden");
-    lottieMainFiring.classList.remove("hidden");
-    //Status
-    lottieIdle.classList.add("hidden");
-    lottieFiring.classList.remove("hidden");
-    //Fire
-    lottieFire.classList.remove("hidden");
+    setVisualState(true);
 
     //Update Alarm List
     renderAlertList(alerts);
@@ -46,14 +62,7 @@ window.ipc.on("server-message", (payload) => {
     audio.pause();
     audio.currentTime = 0;
 
-    //Main
-    lottieMainFiring.classList.add("hidden");
-    lottieMainIdle.classList.remove("hidden");
-    //Status
-    lottieFiring.classList.add("hidden");
-    lottieIdle.classList.remove("hidden");
-    //Fire
-    lottieFire.classList.add("hidden");
+    setVisualState(false);
 
     //Update Alarm List
     renderAlertList([]);
@@ -73,14 +82,49 @@ function renderAlertList(alerts) {
   }
 
   alerts.forEach((alert) => {
-    const item = document.createElement("div");
-    item.className =
-      "bg-red-900/50 border border-red-500/50 p-3 rounded mb-2 text-left animate-pulse";
+    const serviceName = alert.service || "Unknown";
+    const imageName = sanitizeServiceName(serviceName);
 
-    item.innerHTML = `
-      <div class="font-bold text-red-200 text-sm">${alert.service}</div>
-      <div class="text-red-100 text-xs mt-1">Alertname: ${alert.alertname}</div>
-    `;
+    const imagePath = `public/img/${imageName}.png`;
+    const defaultImagePath = `public/img/default.png`;
+
+    const item = document.createElement("div");
+
+    item.className =
+      "relative group h-24 flex items-center justify-center animate-pulse rounded-lg p-2 transition-colors";
+
+    item.title = `Service: ${serviceName}\nAlert: ${alert.alertname}\n${
+      alert.summary || ""
+    }`;
+
+    // 4. Buat Elemen Gambar
+    const img = document.createElement("img");
+    img.src = imagePath;
+    img.alt = serviceName;
+    img.className = "w-full h-full object-contain drop-shadow-md";
+
+    // 5. LOGIKA FALLBACK (KUNCI PERBAIKAN)
+    // Jika gambar gagal dimuat (error), ganti dengan Teks Nama Service
+    img.onerror = () => {
+      // Hapus elemen gambar yang rusak
+      img.remove();
+
+      // Buat elemen teks pengganti
+      const textNode = document.createElement("p");
+      // Styling teks agar terlihat bagus & muat dalam kotak
+      textNode.className =
+        "text-white font-bold text-sm text-center uppercase leading-tight drop-shadow-md break-words w-24";
+      textNode.innerText = serviceName; // Tampilkan nama service dari webhook
+
+      // Masukkan teks ke dalam container
+      item.appendChild(textNode);
+
+      // Opsional: Pertegas border/bg jika gambar tidak ada
+      item.classList.add("border-red-600", "bg-red-900/80");
+    };
+
+    // Masukkan gambar ke container (default)
+    item.appendChild(img);
 
     alertListContainer.appendChild(item);
   });

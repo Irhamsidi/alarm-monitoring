@@ -13,46 +13,58 @@
     <link rel="stylesheet" href="./tailwind.css" />
   </head>
   <body class="h-screen m-0 flex items-center justify-center">
-    <div
-      class="p-8 w-[80vw] max-w-[40rem] h-[90vh] max-h-[60rem] flex flex-col justify-center"
-    >
-      <h1 class="text-[clamp(1.5rem,5vw,3rem)] font-bold text-center">
-        Alarm Monitoring
-      </h1>
-
-      <!-- Alert List -->
-      <div id="alert-list" class="flex space-x-2 w-fit mx-auto">
-        <p class="text-gray-500 text-sm italic">No active alerts</p>
-      </div>
-
-      <div class="my-2 w-auto h-auto m-auto">
-        <!-- Resolved/Idle -->
-        <lottie-player
-          id="lottie-main-idle"
-          src="public/json/catIdle.json"
-          background="transparent"
-          speed="1"
-          class="w-[40vw] max-w-[20rem] h-[50vh] max-h-[30rem]"
-          loop
-          autoplay
-        ></lottie-player>
-        <!-- Firing -->
-        <lottie-player
-          id="lottie-main-firing"
-          src="public/json/fireAlert.json"
-          background="transparent"
-          speed="1"
-          class="hidden w-[40vw] max-w-[20rem] h-[50vh] max-h-[30rem]"
-          loop
-          autoplay
-        ></lottie-player>
-      </div>
-
-      <button id="ackButton" class="self-center z-999">
+    <div class="flex flex-row">
+      <!-- Left: Reset Button -->
+      <button id="resetButton" class="z-999">
         <p
-          class="px-2.5 py-1.5 mt-4 bg-green-600 hover:bg-green-800 rounded-md text-white text-sm cursor-pointer"
+          class="px-3 py-2 mt-4 bg-gray-600 hover:bg-gray-800 rounded-md text-white text-sm cursor-pointer"
         >
-          Acknowledge
+          Reset
+        </p>
+      </button>
+
+      <div
+        class="w-[75vw] max-w-[40rem] h-[90vh] max-h-[60rem] flex flex-col justify-center"
+      >
+        <h1 class="text-[clamp(1.5rem,5vw,3rem)] font-bold text-center">
+          Alarm Monitoring
+        </h1>
+
+        <!-- Alert List -->
+        <div id="alert-list" class="flex space-x-2 w-fit mx-auto">
+          <p class="text-gray-500 text-sm italic">No active alerts</p>
+        </div>
+
+        <div class="my-2 w-auto h-auto m-auto z-999">
+          <!-- Resolved/Idle -->
+          <lottie-player
+            id="lottie-main-idle"
+            src="public/json/catIdle.json"
+            background="transparent"
+            speed="1"
+            class="w-[40vw] max-w-[20rem] h-[50vh] max-h-[30rem]"
+            loop
+            autoplay
+          ></lottie-player>
+          <!-- Firing -->
+          <lottie-player
+            id="lottie-main-firing"
+            src="public/json/fireAlert.json"
+            background="transparent"
+            speed="1"
+            class="hidden w-[40vw] max-w-[20rem] h-[50vh] max-h-[30rem]"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
+      </div>
+
+      <!-- Right: Ack Button -->
+      <button id="ackButton" class="z-999">
+        <p
+          class="px-3 py-2 mt-4 bg-green-600 hover:bg-green-800 rounded-md text-white text-sm cursor-pointer"
+        >
+          ACK
         </p>
       </button>
     </div>
@@ -62,9 +74,10 @@
       src="public/json/Fireee.json"
       background="transparent"
       speed="1"
-      class="absolute bottom-0 w-full hidden"
+      class="absolute bottom-0-0 w-screen h-screen hidden"
       loop
       autoplay
+      preserveAspectRatio="xMidYMax slice"
     ></lottie-player>
 
     <footer

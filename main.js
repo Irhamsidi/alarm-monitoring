@@ -3,7 +3,7 @@ const path = require("path");
 const WebSocket = require("ws");
 
 // const SERVER_ADDRESS = "ws://localhost:5002";
-const SERVER_ADDRESS = "ws://10.16.20.52:5002";
+const SERVER_ADDRESS = "ws://sysobs.svc.bpddiy.co.id:5002";
 let win;
 let ws;
 
@@ -100,6 +100,17 @@ ipcMain.on("ack-alarm", () => {
     console.log("ACK sent to server.");
   } else {
     logWarn("Cannot send ACK: WebSocket is not open.");
+  }
+});
+
+// Reset Button Handling
+ipcMain.on("reset-all", () => {
+  log("\n ----- RESET received. Sending to server... -----");
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send("reset-all");
+    console.log("RESET sent to server.");
+  } else {
+    logWarn("Cannot send RESET: WebSocket is not open.");
   }
 });
 
