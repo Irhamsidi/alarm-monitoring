@@ -85,8 +85,7 @@ function renderAlertList(alerts) {
     const serviceName = alert.service || "Unknown";
     const imageName = sanitizeServiceName(serviceName);
 
-    const imagePath = `public/img/${imageName}.png`;
-    const defaultImagePath = `public/img/default.png`;
+    const imagePath = `./public/img/${imageName}.png`;
 
     const item = document.createElement("div");
 
@@ -107,6 +106,7 @@ function renderAlertList(alerts) {
     // Jika gambar gagal dimuat (error), ganti dengan Teks Nama Service
     img.onerror = () => {
       // Hapus elemen gambar yang rusak
+      console.warn(`Failed to loead image: ${imagePath}`);
       img.remove();
 
       // Buat elemen teks pengganti
